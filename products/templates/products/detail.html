@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <p>
+        {{product.title}}<br>
+        {{product.timestamp|timesince}} ago<br>
+        {{product.price}}<br>
+        {{product.description|linebreaks}}<br>
+        {% if product.image %}
+          <img src="{{product.image.url}}" width="350px" height="300px"/>
+        {% endif %}
+      </p>
+      <hr>
+    </div>
+
+    <div class="col-12 col-md-6" style="margin:10px;">
+      {% include "cart/cart_form.html" with product=product cart=cart %}
+    </div>
+  </div>
+{% endblock content %}
