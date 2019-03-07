@@ -31,10 +31,10 @@
       <td colspan="2"></td>
       <td><b>Total</b> $<span class='cart-total'>{{ cart.total }}</span></td>
     </tr>
-    {% comment %} <tr>
+    <tr>
       <td colspan="2"></td>
-      <td><a class='btn btn-lg btn-success' href='{% url "cart:checkout" %}'>Checkout</a></td>
-    </tr> {% endcomment %}
+      <td><a class='btn btn-lg btn-success' href='{% url "carts:checkout" %}'>Checkout</a></td>
+    </tr>
 
   </tbody>
 </table>
