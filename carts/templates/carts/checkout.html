@@ -2,9 +2,28 @@
 
 
 {% block content %}
-  <h1>CheckOut: </h1>
-  <p>Cart Total: {{order.cart.total}}</p>
-  <p>shipping Total: {{order.shipping_total}}</p>
-  <p>Order Total: {{order.total}}</p>
 
+  {% if not billing_profile %}
+  <div class="row text-center">
+    <div class="col-12 col-md-6">
+      <p class="lead">Login</p>
+      <a class="btn btn-outline-secoundary" href="{% url "accounts:login"  %}">You Need Login</a>
+      OR  <a class="btn btn-outline-secoundary" href="{% url 'accounts:register' %}">Create An Account? </a>
+    </div>
+
+    <div class="col-12 col-md-6">
+      Continue as Guest
+      {% url 'accounts:guest_register' as guest_register_url %}
+      {% include "snippets/form.html" with form=guest_form next_url=request.build_absolute_url action_url=guest_register_url %}
+    </div>
+
+  </div>
+
+
+  {% else %}
+    <h1>CheckOut: </h1>
+    <p>Cart Total: {{order.cart.total}}</p>
+    <p>shipping Total: {{order.shipping_total}}</p>
+    <p>Order Total: {{order.total}}</p>
+  {% endif %}
 {% endblock %}

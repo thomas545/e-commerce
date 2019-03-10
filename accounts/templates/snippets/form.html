@@ -1,0 +1,10 @@
+<form class="" action="{% if action_url %}{{action_url}}{% else %}{% url "accounts:login" %}{% endif %}" method="post">
+  {% csrf_token %}
+
+  {% if next_url %}
+    <input type="hidden" name="next" value="{{next_url}}">
+  {% endif %}
+
+  {{form}}
+  <input class="btn btn-outline-success" type="submit" value="Continue as Guest">
+</form>
