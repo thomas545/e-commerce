@@ -21,9 +21,33 @@
 
 
   {% else %}
-    <h1>CheckOut: </h1>
-    <p>Cart Total: {{order.cart.total}}</p>
-    <p>shipping Total: {{order.shipping_total}}</p>
-    <p>Order Total: {{order.total}}</p>
+    {% if not order.shipping_address %}
+      <div class="row">
+        <div class="col-md-6 mx-auto col-10">
+          <div class="lead">
+            <p>Shipping Address</p><hr>
+            {% url 'address:checkout_address_create' as address_url %}
+            {% include "address/form.html" with form=address_form next_url=request.build_absolute_uri action_url=address_url address_type='shipping' %}
+          </div>
+        </div>
+      </div>
+    {% elif not order.billing_address %}
+      <div class="row">
+        <div class="col-md-6 mx-auto col-10">
+          <div class="lead">
+            <p>Billing Address</p><hr>
+            {% url 'address:checkout_address_create' as address_url %}
+            {% include "address/form.html" with form=address_form next_url=request.build_absolute_uri action_url=address_url address_type='billing' %}
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+      <h1>Finalize CheckOut: </h1>
+      <p>Cart Total: {{order.cart.total}}</p>
+      <p>shipping Total: {{order.shipping_total}}</p>
+      <p>Order Total: {{order.total}}</p>
+      <a href="#" class="btn btn-outline-success">CheckOut</a>
+    {% endif %}
   {% endif %}
 {% endblock %}
