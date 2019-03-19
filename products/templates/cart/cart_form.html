@@ -1,17 +1,17 @@
 
-<form method="POST" action="{% url 'carts:view' %}" class="form-inline my-2 my-lg-0">
+<form class="form-product-ajax" method="POST" action="{% url 'carts:view' %}" data-point='{% url 'carts:view' %}' class="form-inline my-2 my-lg-0"class="form">
   {% csrf_token %}
   <input type="hidden" name="product_id" value="{{product.id}}"/>
   {% if in_cart %}
     <button type="submit" class="btn btn-outline-warning" >Remove</button>
   {% else %}
+    <span class="submit-span">
     {% if product in cart.products.all %}
       <button type="submit" class="btn btn-outline-warning" >Remove</button>
     {% else %}
       <button type="submit" class="btn btn-outline-success" >Add to cart</button>
     {% endif %}
+    </span>
   {% endif %}
-
-
 
 </form>

@@ -8,7 +8,7 @@ from .views import HomeView
 
 from django.conf import settings
 from django.conf.urls.static import static
-
+# from carts.views import cart_detail_api_view
 ################ admin pgae customize #####################
 
 admin.site.site_header = 'Ecommerce admin'
@@ -27,6 +27,7 @@ urlpatterns = [
     path('products/', include('products.urls', namespace='products')),
     path('address/', include('addresses.urls', namespace='address')),
     path('billing/', include('billing.urls', namespace='billing')),
+    # path('api/cart/', cart_detail_api_view, name='cart_api'),
     path('cart/', include('carts.urls', namespace='carts')),
     path('search/', include('search.urls', namespace='search')),
     path('', HomeView.as_view(), name='home'),

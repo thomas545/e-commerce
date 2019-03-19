@@ -49,7 +49,6 @@ class Cart(models.Model):
 
 
 
-
 ## Signals :
 
 def m2m_cart_resiver(sender, instance, action, *args, **kwargs):

@@ -24,8 +24,103 @@
     </div>
 
 
-
-
   {% include "base/js.html" %}
+
+  <script>
+    $(document).ready(function() {
+      var productForm = $('.form-product-ajax')
+      productForm.submit(function (event){
+        event.preventDefault();
+        // console.log("Form Don't Work Yet");
+        var thisForm = $(this);
+        // var actionPoint = thisForm.attr('action');
+        var actionPoint = thisForm.attr('data-point');
+        var httpMethod = thisForm.attr('method');
+        var formData = thisForm.serialize();
+        var submitSpan = thisForm.find(".submit-span")
+        var cartCount = $('.cart-count')
+
+        $.ajax({
+          url: actionPoint,
+          method: httpMethod,
+          data: formData,
+          success: function(data){
+            if (data.added){
+              submitSpan.html("<button type='submit' class='btn btn-outline-warning' >Remove</button>")
+            } else {
+              submitSpan.html("<button type='submit' class='btn btn-outline-success' >Add to cart</button>")
+            }
+            cartCount.text(data.cartCount)
+            var currentPath = window.location.href
+            if (currentPath.indexOf("cart") != -1) {
+              refreshCart()
+            }
+          },
+          error: function(errorData){
+            console.log(errorData);
+          }
+
+        })
+
+        function refreshCart() {
+          console.log("in cart");
+          var cartTable = $(".cart-table")
+          var cartBody = cartTable.find(".cart-body")
+          // cartBody.html("<h1>Changed</h1>")
+          var productRows = cartBody.find(".cart-product")
+          var current_url = window.location.href
+
+          var cartUrl = '/cart/api/cart/';
+          var cartMethod = "GET";
+          var data = {};
+
+          $.ajax({
+            url: cartUrl,
+            method: cartMethod,
+            data: data,
+            success: function (data){
+              console.log("success");
+              console.log(data);
+              if (data.products.length > 0){
+                productRows.html(" ")
+                i = 1
+                $.each(data.products, function (index, value) {
+                  cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td>" + value.name +
+                  "</td><td>" + value.price + "</td></tr>")
+                    i ++
+                    window.location.href = current_url
+                })
+                cartBody.find(".cart-subtotal").text(data.subtotal)
+                cartBody.find(".cart-total").text(data.total)
+
+              } else {
+                window.location.href = current_url
+              }
+
+            },
+            error: function (errorData) {
+              console.log(errorData);
+            }
+          })
+
+
+
+
+        }
+
+
+      });
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
   </body>
 </html>
