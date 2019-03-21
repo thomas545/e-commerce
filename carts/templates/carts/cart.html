@@ -18,8 +18,8 @@
     {% for product in cart.products.all %}
     <tr class='cart-product'>
       <th scope="row">{{ forloop.counter }}</th>
-      <td><a style="margin-right: 20px;" class="btn btn-secondary float-left" href='{{ product.get_absolute_url }}'>{{ product.title }}</a>
-        {% include 'cart/cart_form.html' with product=product cart=cart in_cart=True %}
+      <td><a style="margin-right: 20px;"  href='{{ product.get_absolute_url }}'>{{ product.title }}</a>
+        {% include 'snipets/remove.html' with product_id=product.id %}
       </td>
       <td>{{ product.price }}</td>
     </tr>
@@ -40,11 +40,11 @@
 
   </tbody>
 </table>
-{% comment %}
+
 <div class='cart-item-remove-form' style='display:none'>
 
-    {% include 'carts/snippets/remove-product.html' %}
-  </div> {% endcomment %}
+    {% include 'snipets/remove.html' %}
+  </div>
 
 {% else %}
 <p class='lead'>Cart is empty</p>

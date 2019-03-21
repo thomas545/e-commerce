@@ -16,6 +16,7 @@
             <h6>{{product.timestamp|timesince}}</h6>
             <p class="card-text">{{product.description|linebreaks|truncatewords:7}}</p>
             <a href="{{product.get_absolute_url}}" class="btn btn-primary">View</a>
+            <p>{% include "cart/cart_form.html" with product=product cart=cart %}</p>
           </div>
         </div>
       </div>
