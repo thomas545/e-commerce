@@ -3,8 +3,9 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from products.models import Product
 from django.db.models.signals import pre_save, post_save, m2m_changed
+from django.conf import settings
 # Create your models here.
-
+User = settings.AUTH_USER_MODEL
 # Model Manager
 
 class CartManager(models.Manager):

@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'tags',
 ]
 
+AUTH_USER_MODEL = 'accounts.User'  # Change built-in user model
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -1,10 +1,11 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver                ## Decorator
 from accounts.models import GuestEmail
 # Create your models here.
-
+User = settings.AUTH_USER_MODEL
 
 class BillingProfileManager(models.Manager):
     def new_or_get(self, request):

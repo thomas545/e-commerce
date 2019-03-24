@@ -1,0 +1,100 @@
+[
+{
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+        "title": "hat",
+        "slug": "hat",
+        "description": "its hat",
+        "price": "11.11",
+        "image": "products/261602870/261602870.png",
+        "featured": true,
+        "active": true,
+        "timestamp": "2019-02-19T20:49:22.015Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "T-shirt",
+        "slug": "t-shirt",
+        "description": "this my tshirt",
+        "price": "11.11",
+        "image": "products/492894001/492894001.png",
+        "featured": true,
+        "active": true,
+        "timestamp": "2019-02-19T20:49:22.015Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "supercomputer",
+        "slug": "super-computer",
+        "description": "my computer",
+        "price": "399.99",
+        "image": "",
+        "featured": true,
+        "active": true,
+        "timestamp": "2019-02-19T20:49:22.015Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "title": "laptop",
+        "slug": "laptop-rksf",
+        "description": "my laptop",
+        "price": "122.00",
+        "image": "products/419818507/419818507.jpg",
+        "featured": false,
+        "active": true,
+        "timestamp": "2019-02-19T20:49:22.015Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+        "title": "T-shirt",
+        "slug": "t-shirt-kc6o",
+        "description": "this is my t-shirt",
+        "price": "213.11",
+        "image": "",
+        "featured": false,
+        "active": true,
+        "timestamp": "2019-02-19T20:49:22.015Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+        "title": "shoes",
+        "slug": "shoes-ny270k1w7w",
+        "description": "my shoes is beauty",
+        "price": "122.11",
+        "image": "",
+        "featured": false,
+        "active": true,
+        "timestamp": "2019-02-19T20:49:22.015Z"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+        "title": "jacket",
+        "slug": "jacket",
+        "description": "my jacket",
+        "price": "43.11",
+        "image": "",
+        "featured": false,
+        "active": false,
+        "timestamp": "2019-02-22T15:17:34.353Z"
+    }
+}
+]
