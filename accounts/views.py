@@ -7,7 +7,11 @@ from django.utils.http import is_safe_url
 from .models import GuestEmail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
+from .signals import user_login_signals
 # Create your views here.
+
+
+
 def guest_register_view(request):
     form = GuestForm(request.POST or None)
     context = {
@@ -46,6 +50,7 @@ class LoginFormView(FormView):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
+            user_login_signals.send(user.__class__, instance=user, request=request)
             try:
                 del request.session["guest_email_id"]
             except:

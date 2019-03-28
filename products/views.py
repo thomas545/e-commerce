@@ -3,6 +3,7 @@ from django.http import Http404
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .models import Product
 from carts.models import Cart
+from analytics.mixins import ObjectViewedMixin
 # Create your views here.
 
 
@@ -18,7 +19,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailSlugView(DetailView):
+class ProductDetailSlugView(ObjectViewedMixin, DetailView):
     model = Product
     template_name = "products/detail.html"
 
@@ -44,12 +45,14 @@ class ProductDetailSlugView(DetailView):
             instance = qs.first()
         except :
             raise Http404("Ohh.. Error")
+
+        # object_viewed_signal.send(instance.__class__, instance=instance, request=request)  # for sending signals
         return instance
 
 
 
 
 # Not important
-class ProductDetailView(DetailView):
+class ProductDetailView(ObjectViewedMixin, DetailView):
     model = Product
     template_name = "products/detail.html"
