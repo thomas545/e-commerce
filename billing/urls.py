@@ -1,9 +1,9 @@
 """ billing URL Configuration """
 
-from django.contrib.auth.views import LoginView
+
 from django.urls import path
 
-# from .views import HomeView
+from .views import payment_method
 
 
 
@@ -12,5 +12,5 @@ app_name = "billing"
 
 urlpatterns = [
 
-    # path('', HomeView.as_view(), name='home'),
+    path('payment/', payment_method, name='payment'),
 ]
