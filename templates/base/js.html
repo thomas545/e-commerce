@@ -9,8 +9,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
 
+<!-- JS Render -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.2/jsrender.min.js"></script>
+{% include "base/stripe_form_template.html" %}
+
 <!-- Custom Ajax JS -->
 <script src="{% static 'js/ecommerce.js' %}"></script>
+
+<!-- JS Stripe -->
+<script src="{% static 'js/stripe.js' %}"></script>
 
 <!-- Django Ajax CSRF Token -->
 <script src="{% static 'js/csrf.ajax.js' %}"></script>

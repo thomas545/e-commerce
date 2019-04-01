@@ -2,12 +2,10 @@ $(document).ready(function () {
   var stripeFormModule = $(".stripe-payment-form")
   var stripeToken = stripeFormModule.attr("data-token")
   var stripeNextUrl = stripeFormModule.attr("data-next-url")
-  var stripeTitleBtn = stripeFormModule.attr("data-btn-title") || "Add Payment"
   var stripeTemplate = $.templates("#stripeTemplate")
   var stripeTemplateData = {
       publish_key: stripeToken,
-      next_url: stripeNextUrl,
-      btn_title: stripeTitleBtn
+      next_url: stripeNextUrl
   }
   var stripeTemplateHtml = stripeTemplate.render(stripeTemplateData)
   stripeFormModule.html(stripeTemplateHtml)
@@ -79,17 +77,17 @@ $(document).ready(function () {
     });
     });
 
-    function redirectPath(nextpath, timeofset) {
+    function redirectPath(nextpath, time) {
       if (nextpath) {
-        setTimeout(function() {
+        setTimeout(function () {
           window.location.href = nextpath
-        }, timeofset)
+        }, time)
       }
     }
 
 
     function stripeTokenHandler(nextUrl, token){
-
+      // console.log(token.id)
       var paymentUrl = "/billing/create/payment/"
       var data = {"token":token.id}
 
@@ -101,7 +99,7 @@ $(document).ready(function () {
           var successMsg = data.message || "Your Payment Was Successfuly!"
           card.clear()
           if (nextUrl) {
-            successMsg = successMsg + "<br/><br/><i class='fa fa-spin fa-spinner'></i> Redirecting..."
+            successMsg = successMsg + "<br/><i class='fa fa-spin fa-spinner'></i> Redirecting..."
           }
           if ($.alert) {
             $.alert(successMsg)
