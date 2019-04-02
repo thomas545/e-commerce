@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BillingProfile
+from .models import BillingProfile, Card
 # Register your models here.
 
 
@@ -7,3 +7,4 @@ from .models import BillingProfile
 
 
 admin.site.register(BillingProfile)
+admin.site.register(Card)
