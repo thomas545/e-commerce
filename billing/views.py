@@ -30,8 +30,8 @@ def payment_method_create_view(request):
 
         token = request.POST.get("token")
         if token is not None:
-            card = stripe.Customer.create_source(billing_profile.customer_id,source=token)
-            new_card_obj = Card.objects.add_new(billing_profile, card)
-            print(new_card_obj)
+            # card = stripe.Customer.create_source(billing_profile.customer_id,source=token)
+            # new_card_obj = Card.objects.add_new(billing_profile, card)
+            new_card_obj = Card.objects.add_new(billing_profile, token)
         return JsonResponse({"message":"Success!, Your Card IS Added!"})
     return HttpResponse("Error", status_code=401)
