@@ -51,6 +51,11 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'accounts.User'  # Change built-in user model
 
+import stripe
+STRIPE_SECRET_KEY = "sk_test_gnVSg3SSbYKxbTbPesQwsoTv"
+STRIPE_PUB_KEY = 'pk_test_kC38CxS6Zu5j3HANr0FIkvgZ'
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

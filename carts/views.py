@@ -8,8 +8,17 @@ from accounts.models import GuestEmail
 from billing.models import BillingProfile
 from products.models import Product
 from orders.models import Order
-
+from django.conf import settings
 # Create your views here. Carts App
+
+
+
+import stripe
+STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_gnVSg3SSbYKxbTbPesQwsoTv")
+STRIPE_PUB_KEY = getattr(settings, "STRIPE_PUB_KEY", 'pk_test_kC38CxS6Zu5j3HANr0FIkvgZ')
+stripe.api_key = STRIPE_SECRET_KEY
+
+
 
 
 def cart_detail_api_view(request):
@@ -79,6 +88,7 @@ def check_home(request):
 
     billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
     address_qs = None
+    has_card = False
     if billing_profile is not None:
         if request.user.is_authenticated:
             address_qs = Address.objects.filter(billing_profile=billing_profile)
@@ -95,7 +105,7 @@ def check_home(request):
 
         if billing_address_id or shipping_address_id:
             order_obj.save()
-
+        has_card = billing_profile.has_card
 
     if request.method == 'POST':
         is_prepared = order_obj.check_done()
@@ -105,6 +115,8 @@ def check_home(request):
                 order_obj.mark_paid()
                 request.session['cart_item'] = 0
                 del request.session['cart_id']
+                if not billing_profile.user:
+                    billing_profile.set_cards_inactive()
                 return redirect('carts:success')
             else:
                 print(charge_msg)
@@ -115,7 +127,9 @@ def check_home(request):
         "guest_form":gest_form,
         "login_form":login_form,
         "address_form":address_form,
-        "address_qs":address_qs
+        "address_qs":address_qs,
+        "has_card":has_card,
+        "publish_key":STRIPE_PUB_KEY
     }
 
 
