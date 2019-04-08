@@ -78,6 +78,9 @@
         {% endfor %}</p>
         <p>Shipping Address: {{order.shipping_address.get_address}}</p>
         <p>Billing Address: {{order.shipping_address.get_address}}</p>
+        <p>Payment Credit: {{billing_profile.default_card}}
+          ( <a href="{{billing_profile.get_payment_url}}?next={{request.build_absolute_uri}}">Change</a> )
+        </p>
         <p>Cart Total: {{order.cart.total}}</p>
         <p>shipping Total: {{order.shipping_total}}</p>
         <p>Order Total: {{order.total}}</p>
