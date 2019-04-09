@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # My Apps
     'products',
+    'marketing',
     'analytics',
     'addresses',
     'accounts',
@@ -51,6 +52,13 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'accounts.User'  # Change built-in user model
 
+## MAILCHIMP_Settings ##
+MAILCHIMP_API_KEY           = "8d82da9693436cb98ffe4e096ad348a3-us20"
+MAILCHIMP_DATA_CENTER       = "us20"
+MAILCHIMP_EMAIL_LIST_ID     = "666000ac32"
+
+
+## STRIPE_Settings ##
 import stripe
 STRIPE_SECRET_KEY = "sk_test_gnVSg3SSbYKxbTbPesQwsoTv"
 STRIPE_PUB_KEY = 'pk_test_kC38CxS6Zu5j3HANr0FIkvgZ'
