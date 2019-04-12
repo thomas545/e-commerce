@@ -25,6 +25,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('products/', include('products.urls', namespace='products')),
+    path('marketing/', include('marketing.urls', namespace='marketing')),
     path('address/', include('addresses.urls', namespace='address')),
     path('billing/', include('billing.urls', namespace='billing')),
     # path('api/cart/', cart_detail_api_view, name='cart_api'),

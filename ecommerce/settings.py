@@ -53,9 +53,9 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'accounts.User'  # Change built-in user model
 
 ## MAILCHIMP_Settings ##
-MAILCHIMP_API_KEY           = "8d82da9693436cb98ffe4e096ad348a3-us20"
-MAILCHIMP_DATA_CENTER       = "us20"
-MAILCHIMP_EMAIL_LIST_ID     = "666000ac32"
+MAILCHIMP_API_KEY           = "API_KEY"
+MAILCHIMP_DATA_CENTER       = "DC"
+MAILCHIMP_EMAIL_LIST_ID     = "LIST_ID"
 
 
 ## STRIPE_Settings ##
