@@ -4,6 +4,7 @@
 {% url 'accounts:login' as login_url %}
 {% url 'accounts:logout' as logout_url %}
 {% url 'accounts:register' as register_url %}
+{% url 'accounts:home' as accounts_home %}
 
 
 
@@ -23,8 +24,19 @@
         <a class="nav-link" href="/">contact</a>
       </li>
       {% if user.is_authenticated %}
-        <li class="nav-item {% if request.path == logout_url %}active{% endif %}">
+        <!-- <li class="nav-item {% if request.path == logout_url %}active{% endif %}">
           <a class="nav-link " href="{{logout_url}}">Logout</a>
+        </li> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" {% if request.path == accounts_home %}active{% endif %} href="{{accounts_home}}">Account Settings</a>
+            <a class="dropdown-item" href="#">2</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{logout_url}}">Logout</a>
+          </div>
         </li>
       {% else %}
         <li class="nav-item {% if request.path == login_url %}active{% endif %}">
@@ -37,17 +49,7 @@
       <li class="nav-item {% if request.path == cart_url %}active{% endif %}">
         <a class="nav-link " href="{{cart_url}}"> <span class="cart-count">{{ request.session.cart_item }}</span><i class="fas fa-shopping-cart"></i></a>
       </li>
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li> -->
+
     </ul>
     {% include "form/search_form.html" %}
   </div>

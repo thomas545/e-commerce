@@ -1,8 +1,8 @@
 """Accounts URL Configuration"""
 
 from django.urls import path
-
-from .views import guest_register_view, LoginFormView, RegisterView
+from django.views.generic import RedirectView
+from .views import guest_register_view, LoginFormView, RegisterView, AccountHomeView
 from django.contrib.auth.views import LoginView,LogoutView
 
 
@@ -16,7 +16,7 @@ app_name = "accounts"
 
 urlpatterns = [
     path('guest-register/', guest_register_view, name='guest_register'),
-
+    path('', AccountHomeView.as_view(), name='home'),
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginFormView.as_view(), name='login'),
     # path('register/', register, name='register'),

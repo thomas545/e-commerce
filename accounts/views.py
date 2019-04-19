@@ -6,9 +6,26 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.utils.http import is_safe_url
 from .models import GuestEmail
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, DetailView
 from .signals import user_login_signals
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
+
+class AccountHomeView(LoginRequiredMixin, DetailView):
+    template_name = 'accounts/home.html'
+
+    def get_object(self):
+        return self.request.user
+
+
+# this method like LoginRequiredMixin
+    # @method_decorator
+    # def dispatch(self, request, *args, **kwargs):
+    #     super(AccountHomeView, self).dispatch(request, *args, **kwargs)
+
 
 
 

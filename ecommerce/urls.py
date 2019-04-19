@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from .views import HomeView
+from django.views.generic import RedirectView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -22,6 +23,7 @@ admin.site.index_title = 'Ecommerce administration'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('settings/', RedirectView.as_view(url='/accounts')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('products/', include('products.urls', namespace='products')),

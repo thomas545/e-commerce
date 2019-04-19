@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-center my-5">Account Settings</h1><hr>
+  <div class="row">
+
+        <div class="col-sm">
+          <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Support</h5>
+            <div class="list-group">
+              <a href="#">About</a>
+              <a href="#">contact us</a>
+            </div>
+          </div>
+        </div>
+       </div>
+
+        <div class="col-sm">
+          <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Billng</h5>
+              <div class="list-group">
+                <a href="#">Orders</a>
+                <a href="{% url 'billing:payment' %}">Payment</a>
+                <a href="#">Addresses</a>
+              </div>
+          </div>
+        </div>
+       </div>
+
+        <div class="col-sm">
+          <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">User Detail</h5>
+            <div class="list-group">
+              <a href="#">Email</a>
+              <a href="#">Reset Password</a>
+              <a href="{% url 'marketing:MarketingUpdateView' %}">Email Marketing Subscribe</a>
+            </div>
+          </div>
+        </div>
+       </div>
+
+        <div class="col-sm">
+          <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Email Marketing</h5>
+            <div class="list-group">
+              <a href="{% url 'marketing:MarketingUpdateView' %}">Subscribe</a>
+            </div>
+          </div>
+        </div>
+       </div>
+
+        <div class="col-sm">
+          <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">History</h5>
+            <div class="list-group">
+              <a href="#">Products Viewed</a>
+            </div>
+          </div>
+        </div>
+       </div>
+
+    </div>
+
+
+
+
+{% endblock content %}
