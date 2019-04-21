@@ -1,0 +1,11 @@
+Hello,
+
+please active your account for {{email}} by clicking the link below:
+
+{{path}}
+
+once you active, you can login!
+
+Thank You,
+
+E-commerce

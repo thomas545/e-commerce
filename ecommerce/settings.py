@@ -140,6 +140,31 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Send Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ADMINS = (
+    ('Thomas Adel', 'tomas.temo77@gmail.com'),
+)
+MANAGERS = ADMINS
+
+########### For Gmail ##############
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tomas.temo77@gmail.com'
+# EMAIL_HOST_PASSWORD = 'yourpassword'   # maybe not important
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'E-commerce <tomas.temo77@gmail.com>'
+
+############ For Sendgrid #############
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_HOST_USER = 'yourusername@youremail.com'
+# EMAIL_HOST_PASSWORD = 'your password'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+#############################################################################
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
