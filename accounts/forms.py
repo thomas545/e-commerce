@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from .models import EmailActivation
 # from .models import User
 ## Froms
 User = get_user_model()
@@ -77,6 +78,8 @@ class RegisterForm(forms.ModelForm):
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
         user.is_active = False          # for activain Email
+        # obj, created = EmailActivation.objects.create(user=user)
+        # obj.send_activation()  # i will use post_save
         if commit:
             user.save()
         return user

@@ -53,9 +53,9 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'accounts.User'  # Change built-in user model
 
 ## MAILCHIMP_Settings ##
-MAILCHIMP_API_KEY           = "API_KEY"
-MAILCHIMP_DATA_CENTER       = "DC"
-MAILCHIMP_EMAIL_LIST_ID     = "LIST_ID"
+MAILCHIMP_API_KEY           = "0f198dfea1472344bce870f1f597e375-us20"
+MAILCHIMP_DATA_CENTER       = "us20"
+MAILCHIMP_EMAIL_LIST_ID     = "666000ac32"
 
 
 ## STRIPE_Settings ##
@@ -152,10 +152,11 @@ MANAGERS = ADMINS
 ########### For Gmail ##############
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'tomas.temo77@gmail.com'
-# EMAIL_HOST_PASSWORD = 'yourpassword'   # maybe not important
+EMAIL_HOST_PASSWORD = ''   # maybe not important
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'E-commerce <tomas.temo77@gmail.com>'
+BASE_URL = '127.0.0.1:8000'  # in production : www.example.com
 
 ############ For Sendgrid #############
 # EMAIL_HOST = 'smtp.sendgrid.net'

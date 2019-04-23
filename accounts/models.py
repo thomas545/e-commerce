@@ -2,9 +2,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.mail import send_mail
 from django.template.loader import get_template
-
+from django.conf import settings
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
+from ecommerce.generator import unique_key_generator
 # Create your models here.
-
+# User = settings.AUTH_USER_MODEL
 # send_mail(subject, message, from_email, recipint_list, html_message)
 
 class UserManager(BaseUserManager):
@@ -42,7 +45,7 @@ class UserManager(BaseUserManager):
 
 
 
-
+## Custom User Model ##
 
 class User(AbstractBaseUser):
     email       = models.EmailField(max_length=200, unique=True)
@@ -88,7 +91,73 @@ class User(AbstractBaseUser):
     #     return self.active
 
 
-################################################################################
+## model for activation email ##
+
+class EmailActivation(models.Model):
+    user                = models.ForeignKey(User, on_delete=models.CASCADE)
+    email               = models.EmailField()
+    key                 = models.CharField(blank=True, max_length=200, null=True)
+    activated           = models.BooleanField(default=False)
+    forced_expired      = models.BooleanField(default=False)
+    expires             = models.IntegerField(default=7)
+    timestamp           = models.DateTimeField(auto_now_add=True)
+    update              = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.email
+
+    def regenerate(self):
+        self.key = None
+        self.save()
+        if self.key is not None:
+            return True
+        return False
+
+    def send_activation(self):
+        if not self.activated and not self.forced_expired:
+            if self.key:
+                print(self.key)
+                base_url = getattr(settings, 'BASE_URL', None)
+                path_key = self.key
+                path = "{base}{path}".format(base=base_url, path=path_key)
+                context = {
+                    'path': path,
+                    'email': self.email
+                }
+                txt_ = get_template('registration/emails/verify.txt').render(context)
+                html_ = get_template('registration/emails/verify.html').render(context)
+                subject = '1-click Email Activation'
+                from_email = settings.DEFAULT_FROM_EMAIL
+                recipint_list = [self.email]
+                sent_email = send_mail(
+                    subject,
+                    txt_,
+                    from_email,
+                    recipint_list,
+                    html_message = html_,
+                    fail_silently = False,
+                )
+                return sent_email
+        return False
+
+## Signals ##
+
+@receiver(pre_save, sender=EmailActivation)
+def pre_save_email_activation(sender, instance, *args, **kwargs):
+    if not instance.activated and not instance.forced_expired:
+        if not instance.key:
+            instance.key = unique_key_generator(instance)
+
+
+
+@receiver(post_save, sender=User)
+def post_save_email_activation(sender, instance, created, *args, **kwargs):
+    if created:
+        obj = EmailActivation.objects.create(user=instance, email=instance.email)
+        obj.send_activation()
+
+
+###Guest Email Model###
 
 class GuestEmail(models.Model):
     email       = models.EmailField()
