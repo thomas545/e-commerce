@@ -8,15 +8,17 @@
   </head>
   <body>
     {% include "base/navbar.html" %}
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-primary" role="alert">
-          {{message}}
-        </div>
-      {% endfor %}
-    {% endif %}
     <div class="container">
+      <div class="col-12 my-2">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
 
+      </div>
       {% block content %}
 
       {% endblock content %}

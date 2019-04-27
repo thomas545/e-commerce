@@ -5,7 +5,7 @@
    <h1>Login</h1>
    <form class="" action="." method="post">
      {% csrf_token %}
-     
+
      {% if next_url %}
        <input type="hidden" name="next" value="{{next_url}}">
      {% endif %}
@@ -14,7 +14,8 @@
      <input class="btn btn-outline-success" type="submit" value="Login">
    </form>
    <div class="btn btn-link-sucsess">
-     <a class="ml-2" href="{% url 'accounts:register' %}">Create An Account? </a>
+     <a class="ml-2" href="{% url 'accounts:register' %}">Create An Account ?</a>
+     <p><a class="ml-2" href="{% url 'account:password_reset' %}">Forgot Your Password ?</a></p>
    </div>
 
 {% endblock content %}

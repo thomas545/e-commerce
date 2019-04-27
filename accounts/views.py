@@ -4,13 +4,14 @@ from .forms import RegisterForm, GuestForm, LoginForm, RegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.utils.http import is_safe_url
-from .models import GuestEmail
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView, DetailView
+from .models import GuestEmail, EmailActivation
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, FormView, DetailView, View
 from .signals import user_login_signals
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.safestring import mark_safe
 
 # Create your views here.
 
@@ -26,6 +27,29 @@ class AccountHomeView(LoginRequiredMixin, DetailView):
     # def dispatch(self, request, *args, **kwargs):
     #     super(AccountHomeView, self).dispatch(request, *args, **kwargs)
 
+
+
+class AccountEmailActivateView(View):
+    def get(self, request, key, *args, **kwargs):
+        qs = EmailActivation.objects.filter(key__iexact=key)
+        qs_confirmable = qs.confirm()
+        if qs_confirmable.count() == 1:
+            obj = qs_confirmable.first()
+            obj.activate()
+            messages.success(request, "Your email has been confirmed. Please Login!")
+            return redirect("login")
+        else:
+            activate_qs = qs.filter(activated=True)
+            if activate_qs.exists():
+                # reset_link = reverse("accounts:login")
+                msg = """ Your Email already confirmed. Please Login or click on forgot your password to reset your password""" # .format(link=reset_link)
+                messages.success(request, mark_safe(msg))
+            return redirect("login")
+# 127.0.0.1:8000/accounts/email/confirm/8gnuxd3ijqsglitgliqdzzl1odtr4eac2pvtznul3/
+        return render(request, 'registration/activation-error.html', {})
+
+    def post(self, request, *args, **kwargs):
+        pass
 
 
 
@@ -52,7 +76,7 @@ def guest_register_view(request):
 
 class LoginFormView(FormView):
     form_class = LoginForm
-    template_name = 'registration/login.html'
+    template_name = 'register/login.html'
     success_url = '/'
 
 
@@ -88,7 +112,7 @@ class LoginFormView(FormView):
 ## User regusterayion View
 class RegisterView(CreateView):
     form_class = RegisterForm
-    template_name = 'registration/register.html'
+    template_name = 'register/register.html'
     success_url = reverse_lazy('accounts:login')
 
 

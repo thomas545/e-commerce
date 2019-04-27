@@ -77,9 +77,7 @@ class BillingProfile(models.Model):
 @receiver(pre_save, sender=BillingProfile)
 def billing_created_payment_id_receiver(sender, instance, *args, **kwargs):
     if not instance.customer_id and instance.email:
-        print("Request was sent to stripe")
         customer = stripe.Customer.create(email=instance.email)
-        print(customer)
         instance.customer_id = customer.id
 
 
