@@ -5,9 +5,28 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from .models import EmailActivation
+from django.utils.safestring import mark_safe
+from django.urls import reverse
 # from .models import User
 ## Froms
 User = get_user_model()
+
+class ReactiveEmailForm(forms.Form):
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        qs = EmailActivation.objects.email_exists(email)
+        if not qs.exists():
+            reg_link = reverse("accounts:register")
+            msg = """This Email Does Not Exist , you should <a href="{link}">Register</a> ?!""".format(link=reg_link)
+            raise forms.ValidationError(mark_safe(msg))
+        return email
+
+
+
+
+
 
 class UserAdminCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)

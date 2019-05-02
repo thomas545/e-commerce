@@ -20,7 +20,7 @@ urlpatterns = [
     # path('register/', register, name='register'),
     # re_path('email/confirm/(?P<key>[0-9A-Za-z]+)/', AccountEmailActivateView.as_view(), name='activate'),
     path('email/confirm/<str:key>/', AccountEmailActivateView.as_view(), name='activate'),
-
+    path('email/resend-activation/', AccountEmailActivateView.as_view(), name='resend'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
 ]

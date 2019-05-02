@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.utils import timezone
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.mail import send_mail
 from django.template.loader import get_template
@@ -120,6 +121,9 @@ class EmailActivationManager(models.Manager): # EmailActivation Model Manager
     # for Email Activation Manager (EmailActivationManager.objects.confirmable())
     def confirmable(self):
         return self.get_queryset().confirm()
+    
+    def email_exists(self, email):
+        return self.get_queryset().filter(Q(email=email)|Q(user__email=email)).filter(activated=False)
 
 
 class EmailActivation(models.Model):
