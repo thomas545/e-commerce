@@ -2,11 +2,15 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login, get_user_model
 from django.core.exceptions import ValidationError
 from .models import EmailActivation
 from django.utils.safestring import mark_safe
 from django.urls import reverse
+from django.utils.safestring import mark_safe
+from django.utils.http import is_safe_url
+from django.contrib import messages
+from .signals import user_login_signals
 # from .models import User
 ## Froms
 User = get_user_model()
@@ -22,9 +26,6 @@ class ReactiveEmailForm(forms.Form):
             msg = """This Email Does Not Exist , you should <a href="{link}">Register</a> ?!""".format(link=reg_link)
             raise forms.ValidationError(mark_safe(msg))
         return email
-
-
-
 
 
 
@@ -104,10 +105,6 @@ class RegisterForm(forms.ModelForm):
         return user
 
 
-
-
-
-
 class GuestForm(forms.Form):
     email = forms.EmailField()
 
@@ -116,7 +113,51 @@ class LoginForm(forms.Form):
     email = forms.EmailField(label='Email Address')
     password = forms.CharField(widget=forms.PasswordInput)
 
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(LoginForm, self).__init__(*args, **kwargs)
 
+    def clean(self):
+        request = self.request
+        data = self.cleaned_data
+        email = data.get("email")
+        password = data.get("password")
+        user = authenticate(request, username=email, password=password)
+        if user is None:
+            raise ValidationError("Invalid Credentials")
+        login(request, user)
+        self.user = user
+        user_login_signals.send(user.__class__, instance=user, request=request)
+        try:
+            del request.session["guest_email_id"]
+        except:
+            pass
+
+        return data
+
+    # def form_valid(self, form):
+    #     request = self.request
+    #     next_ = request.GET.get('next')
+    #     next_post = request.POST.get('next')
+    #     redirect_path = next_ or next_post or None
+    #
+    #
+    #     if user is not None:
+    #         if not user.is_active:
+    #             messages.error(request , "This User is Not Active")
+    #             return super(LoginFormView, self).form_valid(form)
+    #
+    #         user_login_signals.send(user.__class__, instance=user, request=request)
+    #         try:
+    #             del request.session["guest_email_id"]
+    #         except:
+    #             pass
+    #         if is_safe_url(redirect_path, request.get_host()):
+    #             return redirect(redirect_path)
+    #         else:
+    #             return redirect('/')
+    #
+    #     return super(LoginFormView, self).form_valid(form)
 
 
 ##################################################################################
@@ -150,6 +191,31 @@ class LoginForm(forms.Form):
 #         return data
 #
 
+# def form_valid(self, form):
+#         request = self.request
+#         next_ = request.GET.get('next')
+#         next_post = request.POST.get('next')
+#         redirect_path = next_ or next_post or None
+
+#         email = form.cleaned_data.get("email")
+#         password = form.cleaned_data.get("password")
+#         user = authenticate(request, username=email, password=password)
+#         if user is not None:
+#             if not user.is_active:
+#                 messages.error(request , "This User is Not Active")
+#                 return super(LoginFormView, self).form_valid(form)
+#             login(request, user)
+#             user_login_signals.send(user.__class__, instance=user, request=request)
+#             try:
+#                 del request.session["guest_email_id"]
+#             except:
+#                 pass
+#             if is_safe_url(redirect_path, request.get_host()):
+#                 return redirect(redirect_path)
+#             else:
+#                 return redirect('/')
+
+#         return super(LoginFormView, self).form_valid(form)
 
 ## not used yet
 # class RegisterForm(UserCreationForm):

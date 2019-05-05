@@ -13,6 +13,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.safestring import mark_safe
 from django.views.generic.edit import FormMixin
+from ecommerce.mixins import NextUrlMixin, RequestFormMixin
 
 # Create your views here.
 
@@ -71,13 +72,13 @@ class AccountEmailActivateView(FormMixin, View):
         activation = EmailActivation.objects.create(user=user, email=email)
         activation.send_activation()
         return super(AccountEmailActivateView, self).form_valid(form)
-    
+
     def form_invalid(self, form):
         context = {'form': form, 'key': self.key}
         return render(self.request, 'registration/activation-error.html', context)
 
 
-
+## User Guest View
 def guest_register_view(request):
     form = GuestForm(request.POST or None)
     context = {
@@ -98,43 +99,34 @@ def guest_register_view(request):
     return redirect('/cart/checkout/')
 
 
-
-class LoginFormView(FormView):
+## User Login View
+class LoginFormView(NextUrlMixin, RequestFormMixin, FormView):
     form_class = LoginForm
     template_name = 'register/login.html'
     success_url = '/'
-
+    default_next = "/"
 
     def form_valid(self, form):
-        request = self.request
-        next_ = request.GET.get('next')
-        next_post = request.POST.get('next')
-        redirect_path = next_ or next_post or None
+        next_path = self.get_next_url()
+        return redirect(next_path)
 
-        email = form.cleaned_data.get("email")
-        password = form.cleaned_data.get("password")
-        user = authenticate(request, username=email, password=password)
-        if user is not None:
-            if not user.is_active:
-                messages.error(request , "This User is Not Active")
-                return super(LoginFormView, self).form_valid(form)
-            login(request, user)
-            user_login_signals.send(user.__class__, instance=user, request=request)
-            try:
-                del request.session["guest_email_id"]
-            except:
-                pass
-            if is_safe_url(redirect_path, request.get_host()):
-                return redirect(redirect_path)
-            else:
-                return redirect('/')
+    # def get_form_kwargs(self):   #its mixins in ecommerce mixins
+    #     kwargs = super(LoginFormView, self).get_form_kwargs()
+    #     kwargs['request'] = self.request
+    #     return kwargs
 
-        return super(LoginFormView, self).form_valid(form)
+    # def get_next_url(self):   #its mixins in ecommerce mixins
+    #     request = self.request
+    #     next_ = request.GET.get('next')
+    #     next_post = request.POST.get('next')
+    #     redirect_path = next_ or next_post or None
+    #     if is_safe_url(redirect_path, request.get_host()):
+    #         return redirect_path
+    #     return '/'
 
 
 
-
-## User regusterayion View
+## User regusteration View
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'register/register.html'
@@ -144,7 +136,7 @@ class RegisterView(CreateView):
 
 
 
-#
+################################################################################
 # User = get_user_model()
 # def register_view(request):
 #     form = RegisterForm(request.POST or None)

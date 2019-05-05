@@ -1,5 +1,7 @@
 
 
+- you should creating a folder to do this operations
+
 - for dump data from database:
 
 python manage.py dumpdata products --format json --indent 4 > products/fixures/products.json
@@ -10,5 +12,4 @@ python manage.py dumpdata products --format json --indent 4 > products/fixures/p
 python manage.py loaddata products/fixures/products.json
 
 
-python manage.py loaddata check/data/pharma.json
-python manage.py dumpdata check --format json --indent 4 > check/data/pharma.json
+
